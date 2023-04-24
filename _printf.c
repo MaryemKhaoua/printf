@@ -17,7 +17,7 @@ int _printf(const char *format, ...)
 			format++; /* move past the '%' character */
 			if (*format == 'c') /* char format specifier */
 			{
-				char c = va_arg(mym, int); /* get next arg as int and cast it to char */
+				char c = (char)va_arg(mym, int); /* get next arg as int cast it to char */
 
 				write(STDOUT_FILENO, &c, 1);
 				ncp++;
