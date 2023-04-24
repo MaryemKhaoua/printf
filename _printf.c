@@ -6,43 +6,63 @@
  */
 int _printf(const char *format, ...)
 {
-	va_list mym; /* used to access each arg passed to the ft after format str */
-	int ncp = 0; /* ncp is the number of characters printed */
+	va_list mym;
+	int ncp = 0;
 
 	va_start(mym, format);
-	while (*format != '\0') /* loop until end of format string is reached */
+	for (; *format != '\0'; format++)
 	{
-		if (*format == '%') /* found a format specifier */
+		if (*format == '%')
 		{
-			format++; /* move past the '%' character */
-			if (*format == 'c') /* char format specifier */
+			format++;
+			if (*format == '\0') /* handle an invalid format specifier */
 			{
-				char c = (char)va_arg(mym, int); /* get next arg as int cast it to char */
-
-				write(STDOUT_FILENO, &c, 1);
-				ncp++;
+				va_end(mym);
+				return (-1);
 			}
-			else if (*format == 's') /* string format specifier */
-			{
-				char *str = va_arg(mym, char *);
-
-				while (*str != '\0')
-				{
-					write(STDOUT_FILENO, str, 1);
-					str++;
-					ncp++;
-				}
-			}
-			else if (*format == '%') /* escaped '%' character */
+			else if (*format == '%') /* handle escaped % character */
 			{
 				write(STDOUT_FILENO, "%", 1);
 				ncp++;
 			}
+			else if (*format == 'c') /* handle char format specifier */
+			{
+				char c = va_arg(mym, int);
+
+				write(STDOUT_FILENO, &c, 1);
+				ncp++;
+			}
+			else if (*format == 's') /* handle string format specifier */
+			{
+				char *str = va_arg(mym, char *);
+
+				if (str == NULL) /* handle NULL string argument */
+				{
+					write(STDOUT_FILENO, "(null)", 6);
+					ncp += 6;
+				}
+				else
+				{
+					while (*str != '\0')
+					{
+						write(STDOUT_FILENO, str, 1);
+						str++;
+						ncp++;
+					}
+				}
+			}
+			else /* handle an invalid format specifier */
+			{
+				write(STDOUT_FILENO, "%", 1);
+				write(STDOUT_FILENO, format, 1);
+				ncp += 2;
+			}
 		}
-		else /* regular character */
+		else /* handle regular character */
 		{
 			write(STDOUT_FILENO, format, 1);
-			ncp++; }
-		format++; } /* move on to the next character in the format string */
+			ncp++;
+		}
+	}
 	va_end(mym);
 	return (ncp); }
