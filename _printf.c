@@ -6,28 +6,43 @@
  */
 int _printf(const char *format, ...)
 {
-	va_list mym;
-	int count = 0;
+	va_list mym; /* used to access each arg passed to the ft after format str */
+	int ncp = 0; /* ncp is the number of characters printed */
 
 	va_start(mym, format);
-	while (*format)
+	while (*format != '\0') /* loop until end of format string is reached */
 	{
-		if (*format == '%')
+		if (*format == '%') /* found a format specifier */
 		{
-			format++;
-			if (*format == '\0')
+			format++; /* move past the '%' character */
+			if (*format == 'c') /* char format specifier */
 			{
-				va_end(mym);
-				return (-1);
+				char c = (char)va_arg(mym, int); /* get next arg as int cast it to char */
+
+				write(STDOUT_FILENO, &c, 1);
+				ncp++;
 			}
-			count += handle_specifier(*format, mym, &count);
+			else if (*format == 's') /* string format specifier */
+			{
+				char *str = va_arg(mym, char *);
+
+				while (*str != '\0')
+				{
+					write(STDOUT_FILENO, str, 1);
+					str++;
+					ncp++;
+				}
+			}
+			else if (*format == '%') /* escaped '%' character */
+			{
+				write(STDOUT_FILENO, "%", 1);
+				ncp++;
+			}
 		}
-		else
+		else /* regular character */
 		{
-			count += write_char(*format, &count);
-		}
-		format++;
-	}
+			write(STDOUT_FILENO, format, 1);
+			ncp++; }
+		format++; } /* move on to the next character in the format string */
 	va_end(mym);
-	return (count);
-}
+	return (ncp); }
