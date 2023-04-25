@@ -63,8 +63,7 @@ int _printf(const char *format, ...)
 
         while (format && format[i])
         {
-                if (format[i] == '%')
-                {
+                if (format[i] == '%'){
                         i++;
                         print_fn = NULL;
                         switch (format[i])
