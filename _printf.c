@@ -9,44 +9,64 @@
  */
 int _printf(const char *format, ...)
 {
-	va_list arg;
-	int i = 0, count = 0;
-	int (*print_fn)(va_list);
+	va_list mym;
+	int ncp = 0;
 
-	va_start(arg, format);
-	while (format && format[i])
+	va_start(mym, format);
+	for (; *format != '\0'; format++)
 	{
-		if (format[i] == '%')
+		if (*format == '%')
 		{
-			i++;
-			print_fn = NULL;
-			switch (format[i])
+			format++;
+			if (*format == '\0') /* handle an invalid format specifier */
 			{
-				case 's':
-					print_fn = print_str;
-					break;
-				case 'c':
-					print_fn = print_char;
-					break;
-				case '%':
-					print_fn = print_percent;
-					break;
-				default:
-					_putchar('%');
-					if (format[i])
-						_putchar(format[i]);
-					else
-						i--;
-					count += 2;
-					break;
+				va_end(mym);
+				return (-1);
 			}
-			if (print_fn != NULL)
-				count += print_fn(arg);
+			else if (*format == '%') /* handle escaped % character */
+			{
+				write(STDOUT_FILENO, "%", 1);
+				ncp++;
+			}
+			else if (*format == 'c') /* handle char format specifier */
+			{
+				char c = va_arg(mym, int);
+
+				write(STDOUT_FILENO, &c, 1);
+				ncp++;
+			}
+			else if (*format == 's') /* handle string format specifier */
+			{
+				char *str = va_arg(mym, char *);
+
+				if (str == NULL) /* handle NULL string argument */
+				{
+					write(STDOUT_FILENO, "(null)", 6);
+					ncp += 6;
+				}
+				else
+				{
+					while (*str != '\0')
+					{
+						write(STDOUT_FILENO, str, 1);
+						str++;
+						ncp++;
+					}
+				}
+			}
+			else /* handle an invalid format specifier */
+			{
+				write(STDOUT_FILENO, "%", 1);
+				write(STDOUT_FILENO, format, 1);
+				ncp += 2;
+			}
 		}
-		else
+		else /* handle regular character */
 		{
-			_putchar(format[i]);
-			count++; }
-		i++; }
-	va_end(arg);
-	return (count); }
+			write(STDOUT_FILENO, format, 1);
+			ncp++;
+		}
+	}
+	va_end(mym);
+	return (ncp);
+}
