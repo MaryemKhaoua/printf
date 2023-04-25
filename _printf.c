@@ -1,51 +1,5 @@
 #include "main.h"
 #include <stdarg.h>
-
-/**
- * print_str - prints a string
- * @arg: va_list containing the string to print
- *
- * Return: number of characters printed
- */
-int print_str(va_list arg)
-{
-        char *str = va_arg(arg, char *);
-        int i = 0;
-
-        if (str == NULL)
-                str = "(null)";
-        while (str[i])
-        {
-                _putchar(str[i]);
-                i++;
-        }
-        return (i);
-}
-
-/**
- * print_char - prints a character
- * @arg: va_list containing the character to print
- *
- * Return: number of characters printed
- */
-int print_char(va_list arg)
-{
-        _putchar(va_arg(arg, int));
-        return (1);
-}
-
-/**
- * print_percent - prints a percent sign
- * @arg: unused
- *
- * Return: number of characters printed
- */
-int print_percent(va_list arg __attribute__((unused)))
-{
-        _putchar('%');
-        return (1);
-}
-
 /**
  * _printf - prints a formatted string to the console
  * @format: the format string
@@ -101,4 +55,3 @@ int _printf(const char *format, ...)
         va_end(arg);
         return (count);
 }
-
