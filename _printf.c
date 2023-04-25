@@ -1,10 +1,8 @@
 #include "main.h"
-#include <stdarg.h>
 /**
  * _printf - prints a formatted string to the console
  * @format: the format string
  * @...: optional arguments
- *
  * Return: number of characters printed
  */
 int _printf(const char *format, ...)
@@ -21,20 +19,17 @@ int _printf(const char *format, ...)
 			if (*format == '\0') /* handle an invalid format specifier */
 			{
 				va_end(mym);
-				return (-1);
-			}
+				return (-1); }
 			else if (*format == '%') /* handle escaped % character */
 			{
 				write(STDOUT_FILENO, "%", 1);
-				ncp++;
-			}
+				ncp++; }
 			else if (*format == 'c') /* handle char format specifier */
 			{
 				char c = va_arg(mym, int);
 
 				write(STDOUT_FILENO, &c, 1);
-				ncp++;
-			}
+				ncp++; }
 			else if (*format == 's') /* handle string format specifier */
 			{
 				char *str = va_arg(mym, char *);
@@ -42,31 +37,22 @@ int _printf(const char *format, ...)
 				if (str == NULL) /* handle NULL string argument */
 				{
 					write(STDOUT_FILENO, "(null)", 6);
-					ncp += 6;
-				}
+					ncp += 6; }
 				else
 				{
 					while (*str != '\0')
 					{
 						write(STDOUT_FILENO, str, 1);
 						str++;
-						ncp++;
-					}
-				}
-			}
+						ncp++; } } }
 			else /* handle an invalid format specifier */
 			{
 				write(STDOUT_FILENO, "%", 1);
 				write(STDOUT_FILENO, format, 1);
-				ncp += 2;
-			}
-		}
+				ncp += 2; } }
 		else /* handle regular character */
-		{
+			{
 			write(STDOUT_FILENO, format, 1);
-			ncp++;
-		}
-	}
+			ncp++; } }
 	va_end(mym);
-	return (ncp);
-}
+	return (ncp); }
