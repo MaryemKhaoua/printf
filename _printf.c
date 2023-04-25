@@ -55,8 +55,7 @@ int _printf(const char *format, ...)
 			{
 				write(STDOUT_FILENO, "%", 1);
 				write(STDOUT_FILENO, format, 1);
-				ncp += 2;
-			}
+				ncp += 2; }
 		}
 		else /* handle regular character */
 		{
