@@ -10,8 +10,7 @@ int _printf(const char *format, ...)
 	int ncp = 0;
 
 	va_start(mym, format);
-	for (; *format != '\0'; format++)
-	{
+	for (; *format != '\0'; format++){
 		if (*format == '%')
 		{
 			format++;
