@@ -64,4 +64,4 @@ int _printf(const char *format, ...)
 		}
 	}
 	va_end(mym);
-	return (ncp); }
+return (ncp); }
