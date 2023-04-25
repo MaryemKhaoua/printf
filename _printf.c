@@ -17,38 +17,36 @@ int _printf(const char *format, ...)
 	while (format && format[i])
 	{
 		if (format[i] == '%')
-			i++;
-		print_fn = NULL;
-		switch (format[i])
 		{
-			case 's':
-				print_fn = print_str;
-				break;
-			case 'c':
-				print_fn = print_char;
-				break;
-			case '%':
-				print_fn = print_percent;
-				break;
-			default:
-				_putchar('%');
-				if (format[i])
-					_putchar(format[i]);
-				else
-					i--;
-				count += 2;
-				break;
+			i++;
+			print_fn = NULL;
+			switch (format[i])
+			{
+				case 's':
+					print_fn = print_str;
+					break;
+				case 'c':
+					print_fn = print_char;
+					break;
+				case '%':
+					print_fn = print_percent;
+					break;
+				default:
+					_putchar('%');
+					if (format[i])
+						_putchar(format[i]);
+					else
+						i--;
+					count += 2;
+					break;
+			}
+			if (print_fn != NULL)
+				count += print_fn(arg);
 		}
-		if (print_fn != NULL)
-			count += print_fn(arg);
-	}
-	else
-	{
-		_putchar(format[i]);
-		count++;
-	}
-	i++;
-}
-va_end(arg);
-return (count);
-}
+		else
+		{
+			_putchar(format[i]);
+			count++; }
+		i++; }
+	va_end(arg);
+	return (count); }
