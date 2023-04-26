@@ -9,7 +9,8 @@ int _printf(const char *format, ...)
 {
     va_list mym;
     int ncp = 0;
-
+if (format == NULL)
+        return (-1);
     va_start(mym, format);
     for (; *format != '\0'; format++)
     {
