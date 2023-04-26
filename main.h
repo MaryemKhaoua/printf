@@ -12,5 +12,6 @@ int _printf(const char *format, ...);
 int print_str(char *str);
 int print_char(char c);
 int print_cases(const char *format, va_list mym);
+int print_int(int n);
 
 #endif

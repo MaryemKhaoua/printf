@@ -21,6 +21,10 @@ int print_cases(const char *format, va_list mym)
 		case 's': /* handle string format specifier */
 			ncp += print_str(va_arg(mym, char *));
 			break;
+		case 'd': /* handle decimal format specifier */
+		case 'i':
+			ncp += print_int(va_arg(mym, int));
+			break;
 		default: /* handle an invalid format specifier */
 			write(STDOUT_FILENO, "%", 1);
 			write(STDOUT_FILENO, format, 1);
