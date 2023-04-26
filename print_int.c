@@ -8,21 +8,19 @@ int print_int(int n)
 {
 	int ncp = 0;
 	char buffer[20]; /* enough to hold any 32-bit integer */
+	int is_negative = 0;
 
 	if (n == 0)
 	{
 		write(STDOUT_FILENO, "0", 1);
-		ncp++;
-	}
+		ncp++; }
 	else if (n == INT_MIN) /* handle the case for INT_MIN */
 	{
 		write(STDOUT_FILENO, "-2147483648", 11);
-		ncp += 11;
-	}
+		ncp += 11; }
 	else
 	{
 		int i = 0;
-		int is_negative = 0;
 
 		if (n < 0)
 		{
@@ -30,11 +28,12 @@ int print_int(int n)
 			n = -n;
 			ncp++;
 		}
-		while (n != 0)
+		while (n > 0)
 		{
 			buffer[i] = (n % 10) + '0';
 			n /= 10;
-			i++; }
+			i++;
+		}
 		if (is_negative)
 		{
 			buffer[i] = '-';
