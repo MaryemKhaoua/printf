@@ -9,8 +9,7 @@ int print_cases(const char *format, va_list mym)
 {
 	int ncp = 0;
 
-	switch (*format)
-	{
+	switch (*format){
 		case '%': /* handle escaped % character */
 			write(STDOUT_FILENO, "%", 1);
 			ncp++;
