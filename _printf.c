@@ -16,10 +16,8 @@ int _printf(const char *format, ...)
 		if (*format == '%')
 		{
 			format++;
-			if (*format == '\0') /* handle an invalid format specifier */
-			{
-				va_end(mym);
-				return (-1); }
+			if (format == NULL || (format[0] == '%' && format[1] == '\0'))
+				return (-1);
 			else if (*format == '%') /* handle escaped % character */
 			{
 				write(STDOUT_FILENO, "%", 1);
