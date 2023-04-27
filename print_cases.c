@@ -8,6 +8,7 @@
 int print_cases(const char *format, va_list mym)
 {
 	int ncp = 0;
+	int n;
 
 	switch (*format)
 	{
@@ -23,7 +24,8 @@ int print_cases(const char *format, va_list mym)
 			break;
 		case 'd': /* handle decimal format specifier */
 		case 'i':
-			ncp += print_int(va_arg(mym, int));
+			n = va_arg(mym, int);
+			print_int(n, &ncp);
 			break;
 		default: /* handle an invalid format specifier */
 			write(STDOUT_FILENO, "%", 1);
