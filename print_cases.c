@@ -6,7 +6,8 @@
  * Return: number of characters printed
  */
 int print_cases(const char *format, va_list mym)
-{int ncp = 0;
+{
+	int ncp = 0;
 	int n;
 
 	switch (*format)
